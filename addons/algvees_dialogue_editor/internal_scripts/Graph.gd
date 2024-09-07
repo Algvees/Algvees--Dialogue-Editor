@@ -2,17 +2,19 @@
 extends GraphEdit
 
 @onready var r_click_menu: PopupMenu = $RClickMenu
+@onready var r_click_node_menu: PopupMenu = $RClickNodeMenu
 @onready var node_menu: PopupMenu = $NodeMenu
 @export var dialogue_root: Control
 var node_types: Dictionary = {}
 
 var selected: Array[DialogueGraphNode] = []
-var editing: DialogueGraphNode
 var start_node: DialogueGraphNode = null:
 	set(new_node):
 		if start_node != null:
 			start_node.remove_start()
 		new_node.set_start()
+		remove_node_connections(new_node)
+		new_node.position_offset = Vector2.ZERO
 		start_node = new_node
 
 var graph_nodes: Array[GraphElement] = []
@@ -119,5 +121,32 @@ func _on_delete_nodes_request(nodes: Array[StringName]) -> void:
 	selected = []
 
 func _on_popup_request(at_position: Vector2) -> void:
-	r_click_menu.position = DisplayServer.mouse_get_position()
-	r_click_menu.popup()
+	if selected.size() == 0:
+		r_click_menu.position = DisplayServer.mouse_get_position()
+		r_click_menu.popup()
+	else:
+		if selected.size()>1:
+			r_click_node_menu.set_item_disabled(1,true)
+			r_click_node_menu.set_item_disabled(2,true)
+		r_click_node_menu.position = DisplayServer.mouse_get_position()
+		r_click_node_menu.popup()
+
+func _on_r_click_node_menu_id_pressed(id: int) -> void:
+	match id:
+		0:
+			var delete_array:=[]
+			for node in selected:
+				delete_array.append(node.name)
+			_on_delete_nodes_request(delete_array)
+		1:
+			$NameChangeDialogue.position = DisplayServer.mouse_get_position()
+			$NameChangeDialogue.popup()
+			$NameChangeDialogue/LineEdit.text = selected[0].name
+		2:
+			start_node = selected[0]
+
+
+func _on_name_change_dialogue_confirmed() -> void:
+	selected[0].name = $NameChangeDialogue/LineEdit.text
+	selected[0].change_title()
+	$NameChangeDialogue/LineEdit.text = ""

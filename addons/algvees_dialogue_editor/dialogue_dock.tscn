@@ -109,13 +109,32 @@ item_0/text = "Add Node"
 item_1/text = "Save File"
 item_1/id = 1
 
+[node name="RClickNodeMenu" type="PopupMenu" parent="Graph/GraphEdit"]
+auto_translate_mode = 1
+size = Vector2i(129, 116)
+item_count = 3
+item_0/text = "Delete"
+item_1/text = "Change Name"
+item_1/id = 1
+item_2/text = "Make Start"
+item_2/id = 2
+
 [node name="NodeMenu" type="PopupMenu" parent="Graph/GraphEdit"]
 auto_translate_mode = 1
+size = Vector2i(146, 100)
 item_count = 3
 item_0/text = "animation_node"
 item_0/id = 1
 item_1/text = "item_response"
 item_2/text = "lines_node"
+
+[node name="NameChangeDialogue" type="ConfirmationDialog" parent="Graph/GraphEdit"]
+
+[node name="LineEdit" type="LineEdit" parent="Graph/GraphEdit/NameChangeDialogue"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 51.0
 
 [node name="DialogueList" type="VBoxContainer" parent="."]
 visible = false
@@ -160,6 +179,8 @@ filters = PackedStringArray("*.tres")
 [connection signal="popup_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_popup_request"]
 [connection signal="id_pressed" from="Graph/GraphEdit/RClickMenu" to="." method="_on_r_click_menu_id_pressed"]
 [connection signal="id_pressed" from="Graph/GraphEdit/RClickMenu" to="Graph/GraphEdit" method="_on_rc_menu_id_pressed"]
+[connection signal="id_pressed" from="Graph/GraphEdit/RClickNodeMenu" to="Graph/GraphEdit" method="_on_r_click_node_menu_id_pressed"]
 [connection signal="id_pressed" from="Graph/GraphEdit/NodeMenu" to="Graph/GraphEdit" method="_on_node_menu_id_pressed"]
+[connection signal="confirmed" from="Graph/GraphEdit/NameChangeDialogue" to="Graph/GraphEdit" method="_on_name_change_dialogue_confirmed"]
 [connection signal="file_selected" from="FileLoader" to="." method="load_resource"]
 [connection signal="file_selected" from="FileSaver" to="." method="save_resource"]
