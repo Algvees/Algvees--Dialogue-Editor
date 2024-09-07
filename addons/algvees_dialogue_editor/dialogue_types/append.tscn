@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh2pj0artlgrb"]
+
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_types/append.gd" id="1_s7g8q"]
+
+[node name="AppendType" type="HBoxContainer"]
+script = ExtResource("1_s7g8q")
+id = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Activate on flag:"
+
+[node name="ActivatorFlag" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "Affected dialogue:"
+
+[node name="AffectedDialogue" type="LineEdit" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2

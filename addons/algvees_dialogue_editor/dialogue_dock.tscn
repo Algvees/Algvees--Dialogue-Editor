@@ -1,0 +1,164 @@
+[gd_scene load_steps=5 format=3 uid="uid://u2u41owwms0m"]
+
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/internal_scripts/dialogue_root.gd" id="1_sipqo"]
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/internal_scripts/Graph.gd" id="1_y23on"]
+[ext_resource type="Resource" uid="uid://1htfbgv2sgua" path="res://addons/algvees_dialogue_editor/default.tres" id="2_c0vr7"]
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/internal_scripts/type_setter.gd" id="3_7htho"]
+
+[node name="AlgveesDialogueEditor" type="VBoxContainer" node_paths=PackedStringArray("graph_containter", "list_containter", "dialogue_button_list", "graph_edit", "dialogue_line_edit", "type_selector", "item_dialogue_check")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sipqo")
+graph_containter = NodePath("Graph")
+list_containter = NodePath("DialogueList")
+dialogue_button_list = NodePath("DialogueList/VBoxContainer")
+graph_edit = NodePath("Graph/GraphEdit")
+dialogue_line_edit = NodePath("HBoxContainer/DialogueName")
+type_selector = NodePath("TypeSetter")
+default_dialogue = ExtResource("2_c0vr7")
+item_dialogue_check = NodePath("HBoxContainer/ItemDialogueCheck")
+
+[node name="MenuBar" type="MenuBar" parent="."]
+layout_mode = 2
+
+[node name="File" type="PopupMenu" parent="MenuBar"]
+item_count = 3
+item_0/text = "New"
+item_1/text = "Save As"
+item_1/id = 1
+item_2/text = "Load"
+item_2/id = 2
+
+[node name="Settings" type="PopupMenu" parent="MenuBar"]
+auto_translate_mode = 1
+item_count = 1
+item_0/text = "reimport types"
+
+[node name="PathLabel" type="Label" parent="."]
+layout_mode = 2
+text = "path"
+
+[node name="HBoxContainer" type="HFlowContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+metadata/_edit_group_ = true
+
+[node name="DialogueName" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(142, 0)
+layout_mode = 2
+text = "default"
+placeholder_text = "Dialogue name"
+editable = false
+
+[node name="ItemDialogueCheck" type="CheckBox" parent="HBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Item Dialogue"
+
+[node name="SwitchButton" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Switch View"
+
+[node name="New" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "New Dialogue"
+
+[node name="Delete" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Delete Dialogue"
+
+[node name="TypeSetter" type="HFlowContainer" parent="."]
+layout_mode = 2
+script = ExtResource("3_7htho")
+
+[node name="TypeLabel" type="Label" parent="TypeSetter"]
+layout_mode = 2
+text = "Type:"
+
+[node name="TypeSelector" type="OptionButton" parent="TypeSetter"]
+layout_mode = 2
+disabled = true
+selected = 0
+item_count = 2
+popup/item_0/text = "default"
+popup/item_1/text = "append"
+popup/item_1/id = 1
+
+[node name="Graph" type="Control" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GraphEdit" type="GraphEdit" parent="Graph"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+grid_pattern = 1
+snapping_enabled = false
+right_disconnects = true
+script = ExtResource("1_y23on")
+
+[node name="RClickMenu" type="PopupMenu" parent="Graph/GraphEdit"]
+item_count = 2
+item_0/text = "Add Node"
+item_1/text = "Save File"
+item_1/id = 1
+
+[node name="NodeMenu" type="PopupMenu" parent="Graph/GraphEdit"]
+auto_translate_mode = 1
+item_count = 2
+item_0/text = "animation_node"
+item_0/id = 1
+item_1/text = "lines_node"
+
+[node name="DialogueList" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="DialogueList"]
+layout_mode = 2
+text = "Dialogues:"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DialogueList"]
+layout_mode = 2
+
+[node name="FileLoader" type="FileDialog" parent="."]
+title = "Open a File"
+position = Vector2i(50, 57)
+size = Vector2i(658, 545)
+ok_button_text = "Open"
+file_mode = 0
+filters = PackedStringArray("*.tres")
+
+[node name="FileSaver" type="FileDialog" parent="."]
+auto_translate_mode = 1
+position = Vector2i(50, 57)
+size = Vector2i(658, 545)
+ok_button_text = "Save"
+filters = PackedStringArray("*.tres")
+
+[connection signal="id_pressed" from="MenuBar/File" to="." method="_on_file_id_pressed"]
+[connection signal="focus_exited" from="HBoxContainer/DialogueName" to="." method="_on_dialogue_name_focus_exited"]
+[connection signal="text_submitted" from="HBoxContainer/DialogueName" to="." method="change_dialogue_name"]
+[connection signal="pressed" from="HBoxContainer/SwitchButton" to="." method="switch_view"]
+[connection signal="pressed" from="HBoxContainer/New" to="." method="new_dialogue"]
+[connection signal="pressed" from="HBoxContainer/Delete" to="." method="delete_dialogue"]
+[connection signal="item_selected" from="TypeSetter/TypeSelector" to="TypeSetter" method="_on_type_selector_item_selected"]
+[connection signal="connection_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_connection_request"]
+[connection signal="delete_nodes_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_delete_nodes_request"]
+[connection signal="disconnection_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_disconnection_request"]
+[connection signal="gui_input" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_gui_input"]
+[connection signal="node_deselected" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_node_deselected"]
+[connection signal="node_selected" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_node_selected"]
+[connection signal="popup_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_popup_request"]
+[connection signal="id_pressed" from="Graph/GraphEdit/RClickMenu" to="." method="_on_r_click_menu_id_pressed"]
+[connection signal="id_pressed" from="Graph/GraphEdit/RClickMenu" to="Graph/GraphEdit" method="_on_rc_menu_id_pressed"]
+[connection signal="id_pressed" from="Graph/GraphEdit/NodeMenu" to="Graph/GraphEdit" method="_on_node_menu_id_pressed"]
+[connection signal="file_selected" from="FileLoader" to="." method="load_resource"]
+[connection signal="file_selected" from="FileSaver" to="." method="save_resource"]

@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgvk55u6c8vee"]
+
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/node_components/line_edit.gd" id="1_85j52"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ubqu"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="LineEditor" type="HBoxContainer"]
+custom_minimum_size = Vector2(400, 40)
+offset_right = 59.0
+offset_bottom = 30.0
+size_flags_horizontal = 3
+script = ExtResource("1_85j52")
+
+[node name="dragbutton" type="Button" parent="."]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="dragbutton"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 12.355
+offset_top = -16.65
+offset_right = 43.355
+offset_bottom = 6.35
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 1.5708
+text = "<   >"
+
+[node name="LineEdit" type="TextEdit" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "line text"
+wrap_mode = 1
+caret_blink = true
+
+[node name="XButton" type="Button" parent="."]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_5ubqu")
+text = " X "
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Margin" type="Control" parent="."]
+layout_mode = 2
+
+[connection signal="button_down" from="dragbutton" to="." method="_on_dragbutton_button_down"]
+[connection signal="button_up" from="dragbutton" to="." method="_on_dragbutton_button_up"]
+[connection signal="pressed" from="XButton" to="." method="_on_x_button_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
