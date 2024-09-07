@@ -7,7 +7,7 @@
 custom_minimum_size = Vector2(375, 0)
 offset_right = 189.0
 offset_bottom = 86.0
-title = "Item Responses:Item Response:Item Response"
+title = "Item Responses"
 slot/0/left_enabled = true
 slot/0/left_type = 0
 slot/0/left_color = Color(1, 1, 1, 1)
