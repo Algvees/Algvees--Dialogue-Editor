@@ -6,8 +6,7 @@ const LINE_EDITOR = preload("res://addons/algvees_dialogue_editor/node_component
 func initialize():
 	create_line()
 
-func populate_data(data:Dictionary):
-	super.populate_data(data)
+func _populate_data(data:Dictionary):
 	for line in data.lines:
 		var new_line = create_line()
 		new_line.line_edit.text = line

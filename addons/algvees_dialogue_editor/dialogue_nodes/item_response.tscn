@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://bacgcd3mbgk8v"]
+
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/item_response.gd" id="1_c1c2m"]
+[ext_resource type="PackedScene" uid="uid://dgvk55u6c8vee" path="res://addons/algvees_dialogue_editor/node_components/line_editor.tscn" id="2_3py63"]
+
+[node name="Item Response" type="GraphNode"]
+custom_minimum_size = Vector2(375, 0)
+offset_right = 189.0
+offset_bottom = 86.0
+title = "Item Responses:Item Response:Item Response"
+slot/0/left_enabled = true
+slot/0/left_type = 0
+slot/0/left_color = Color(1, 1, 1, 1)
+slot/0/left_icon = null
+slot/0/right_enabled = false
+slot/0/right_type = 0
+slot/0/right_color = Color(1, 1, 1, 1)
+slot/0/right_icon = null
+slot/0/draw_stylebox = true
+slot/1/left_enabled = false
+slot/1/left_type = 0
+slot/1/left_color = Color(1, 1, 1, 1)
+slot/1/left_icon = null
+slot/1/right_enabled = true
+slot/1/right_type = 0
+slot/1/right_color = Color(1, 1, 1, 1)
+slot/1/right_icon = null
+slot/1/draw_stylebox = true
+script = ExtResource("1_c1c2m")
+ID = 2
+adjustable_port_number = true
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+text = "Add Item Response"
+
+[node name="NothingResponse" parent="." instance=ExtResource("2_3py63")]
+layout_mode = 2
+
+[node name="dragbutton" parent="NothingResponse" index="0"]
+visible = false
+
+[node name="LineEdit" parent="NothingResponse" index="1"]
+text = "Nothing Response"
+placeholder_text = ""
+editable = false
+
+[node name="XButton" parent="NothingResponse" index="2"]
+visible = false
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+
+[editable path="NothingResponse"]

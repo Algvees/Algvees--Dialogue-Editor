@@ -111,10 +111,11 @@ item_1/id = 1
 
 [node name="NodeMenu" type="PopupMenu" parent="Graph/GraphEdit"]
 auto_translate_mode = 1
-item_count = 2
+item_count = 3
 item_0/text = "animation_node"
 item_0/id = 1
-item_1/text = "lines_node"
+item_1/text = "item_response"
+item_2/text = "lines_node"
 
 [node name="DialogueList" type="VBoxContainer" parent="."]
 visible = false

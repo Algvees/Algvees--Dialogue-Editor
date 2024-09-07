@@ -2,7 +2,6 @@ Hello! This is the hap hazardly written manual for my dialogue editor, it is not
 
 **important missing stuff**
 > Right click menu to change node type and name
->Example node with multiple outputs
 
 **Technical**
 the dialogue nodes and types are automatically scanned upon the addon being loading, to load new ones or changes turn off and on the addon.

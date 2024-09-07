@@ -5,11 +5,10 @@ extends DialogueGraphNode
 @onready var pause_check = $"VBoxContainer/pause check"
 
 func _populate_data(data:Dictionary):
-	super.populate_data(data)
 	animation_name.text = data.animation_name 
 	pause_check.button_pressed = data.pause_check
 
-func _create_save_dict():
+func create_save_dict():
 	var dict = {}
 	dict["animation_name"] = animation_name.text
 	dict["pause_check"] = pause_check.button_pressed

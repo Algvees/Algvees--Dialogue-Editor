@@ -60,7 +60,7 @@ func remove_node_connections(node,preserve_left_connection:bool = false):
 	for connection in get_connection_list():
 		if connection.to_node == node.name:
 			disconnect_from_dict(connection)
-		if !preserve_left_connection && connection.from_node == node:
+		if !preserve_left_connection && connection.from_node == node.name:
 			disconnect_from_dict(connection)
 
 func create_graph_from_dict(dia_dict:Dictionary):
