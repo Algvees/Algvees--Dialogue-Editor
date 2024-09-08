@@ -8,7 +8,7 @@ func _populate_data(data:Dictionary):
 	animation_name.text = data.animation_name 
 	pause_check.button_pressed = data.pause_check
 
-func create_save_dict():
+func _create_save_dict():
 	var dict = {}
 	dict["animation_name"] = animation_name.text
 	dict["pause_check"] = pause_check.button_pressed

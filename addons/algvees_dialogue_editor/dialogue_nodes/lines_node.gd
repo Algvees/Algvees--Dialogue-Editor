@@ -12,7 +12,7 @@ func _populate_data(data:Dictionary):
 		new_line.line_edit.text = line
 
 
-func create_save_dict():
+func _create_save_dict():
 	var dict = {}
 	var lines:Array[String] = []
 	for i in range(1,get_child_count()):

@@ -18,7 +18,6 @@ var dialogue_base_dictionary: Dictionary:
 		return dialogue_resource.Base_Dialogue
 var dialogue_path:String
 var current_dialogue: String = ""
-var names: Array[String] = []
 
 func _ready() -> void:
 	dialogue_resource = DialogueResource.new()
@@ -31,7 +30,6 @@ func clear_list() -> void:
 
 func create_dialogue_button(dialogue_name):
 	var new_button = Button.new()
-	names.append(dialogue_name)
 	new_button.name = dialogue_name
 	new_button.text = dialogue_name
 	dialogue_button_list.add_child(new_button)
@@ -46,7 +44,7 @@ func new_dialogue() -> void:
 	graph_edit.clear()
 	var dia_name:String
 	for i in INF:
-		if names.has("dialogue" + str(i)):
+		if dialogue_base_dictionary.has("dialogue" + str(i)):
 			continue
 		dia_name = "dialogue" + str(i)
 		break
@@ -61,7 +59,6 @@ func delete_dialogue() -> void:
 	if dialogue_base_dictionary[current_dialogue].special > 0: return
 	dialogue_base_dictionary.erase(current_dialogue)
 	dialogue_button_list.get_node(current_dialogue).queue_free()
-	names.erase(current_dialogue)
 	open_dialogue("default")
 
 func load_resource(path:String) -> void:
@@ -87,7 +84,6 @@ func save_dialogue() -> void:
 	dict.nodes = {}
 	for node in graph_edit.graph_nodes:
 		var node_dict = node.create_save_dict()
-		node_dict.merge(node.save_base_data())
 		var node_connections = []
 		node_connections.resize(node.get_output_port_count())
 		for connection in connections:
@@ -100,7 +96,9 @@ func save_dialogue() -> void:
 
 func save_resource(path:String) -> void:
 	save_dialogue()
-	ResourceSaver.save(dialogue_resource,path)
+	var test = ResourceSaver.save(dialogue_resource,path,ResourceSaver.FLAG_CHANGE_PATH)
+	if test != OK:
+		push_error("save failed at " + path)
 
 func open_dialogue(dialogue_name:String) -> void:
 	graph_edit.clear()
@@ -135,16 +133,14 @@ func switch_view() -> void:
 		list_containter.visible = false
 
 func change_dialogue_name(new_name:String) -> void:
-	if names.has(new_name): return
+	if dialogue_base_dictionary.has(new_name): return
 	
 	var button = dialogue_button_list.get_node(current_dialogue)
 	button.name = new_name
 	button.text = new_name
 	dialogue_base_dictionary[new_name] = dialogue_base_dictionary[current_dialogue]
 	dialogue_base_dictionary.erase(current_dialogue)
-	names.erase(current_dialogue)
 	current_dialogue = new_name
-	names.append(current_dialogue)
 
 func _on_r_click_menu_id_pressed(id: int) -> void:
 	if id == 1:

@@ -126,6 +126,7 @@ item_count = 3
 item_0/text = "animation_node"
 item_0/id = 1
 item_1/text = "item_response"
+item_1/id = 2
 item_2/text = "lines_node"
 
 [node name="NameChangeDialogue" type="ConfirmationDialog" parent="Graph/GraphEdit"]

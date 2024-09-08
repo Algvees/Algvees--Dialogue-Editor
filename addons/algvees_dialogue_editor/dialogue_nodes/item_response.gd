@@ -16,7 +16,7 @@ func _populate_data(data:Dictionary):
 		pass
 	pass
 
-func create_save_dict():
+func _create_save_dict():
 	var dict = {}
 	dict["items"] = []
 	for i in range(2,get_child_count()):

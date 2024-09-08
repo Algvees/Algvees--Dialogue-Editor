@@ -19,7 +19,7 @@ func get_type_data_dict() -> Dictionary:
 	var dict = {}
 	if selected_type:
 		dict = {"type" : selected_type.id}
-		dict.merge(selected_type._get_data_dict())
+		dict.merge(selected_type.get_data_dict())
 	else:
 		dict = {"type" : 0}
 	return dict

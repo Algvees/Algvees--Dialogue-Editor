@@ -1,7 +1,7 @@
 Hello! This is the hap hazardly written manual for my dialogue editor, it is not finished but it is usable technically. This tool only provides an editor and is not a parser, you will have to provide that yourself. Also it's kinda set up for pool day sorgy </3
 
 **important missing stuff**
-> nothing i think
+> Proper error output for things like trying to delete the start node
 
 **Technical**
 the dialogue nodes and types are automatically scanned upon the addon being loading, to load new ones or changes turn off and on the addon.

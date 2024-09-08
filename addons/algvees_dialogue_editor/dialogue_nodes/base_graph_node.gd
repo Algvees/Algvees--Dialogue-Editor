@@ -61,9 +61,10 @@ func remove_start():
 	start = false
 	set_slot_enabled_left(0,true)
 
-func save_base_data():
+func create_save_dict():
 	var dict = {}
 	dict["type"] = ID
 	dict["x"] = int(position_offset.x)
 	dict["y"] = int(position_offset.y)
+	dict.merge(_create_save_dict())
 	return dict

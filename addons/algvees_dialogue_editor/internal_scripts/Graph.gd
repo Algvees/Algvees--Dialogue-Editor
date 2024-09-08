@@ -13,7 +13,7 @@ var start_node: DialogueGraphNode = null:
 		if start_node != null:
 			start_node.remove_start()
 		new_node.set_start()
-		remove_node_connections(new_node)
+		#remove_node_connections(new_node,true)
 		new_node.position_offset = Vector2.ZERO
 		start_node = new_node
 
@@ -42,6 +42,7 @@ func scan_node_directory():
 		push_error("dialogue_nodes directory missing")
 
 func clear():
+	selected.clear()
 	for connection in get_connection_list():
 		disconnect_from_dict(connection)
 	for node in graph_nodes:
@@ -62,10 +63,13 @@ func remove_node_connections(node,preserve_left_connection:bool = false):
 	for connection in get_connection_list():
 		if connection.to_node == node.name:
 			disconnect_from_dict(connection)
-		if !preserve_left_connection && connection.from_node == node.name:
-			disconnect_from_dict(connection)
+		if !preserve_left_connection:
+			if connection.from_node == node.name:
+				disconnect_from_dict(connection)
+
 
 func create_graph_from_dict(dia_dict:Dictionary):
+	var connections = []
 	for key in dia_dict.nodes.keys():
 		var node_dict = dia_dict.nodes[key]
 		var new_node = create_node(node_dict.type)
@@ -74,7 +78,9 @@ func create_graph_from_dict(dia_dict:Dictionary):
 		new_node.populate_data(node_dict)
 		for i in node_dict.connections.size():
 			if node_dict.connections[i] != null:
-				var test = connect_node(key,i,node_dict.connections[i],0)
+				connections.append([key,i,node_dict.connections[i],0])
+	for connection in connections:
+		connect_node(connection[0],connection[1],connection[2],connection[3])
 	start_node = get_node(dia_dict.start_node)
 
 func _on_rc_menu_id_pressed(id: int) -> void:
