@@ -14,7 +14,6 @@ func _ready():
 	initial_title = title
 	connect("renamed",change_title)
 	connect("dragged",dragging_checks)
-	change_title()
 
 func initialize():
 	pass

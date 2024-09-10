@@ -57,6 +57,7 @@ func create_node(id) -> GraphNode:
 	var new_graph_node:DialogueGraphNode = node_types[id].instantiate()
 	graph_nodes.append(new_graph_node)
 	add_child(new_graph_node)
+	new_graph_node.change_title()
 	return new_graph_node
 
 func remove_node_connections(node,preserve_left_connection:bool = false):
