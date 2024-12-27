@@ -132,16 +132,21 @@ func _on_popup_request(at_position: Vector2) -> void:
 		r_click_menu.position = DisplayServer.mouse_get_position()
 		r_click_menu.popup()
 	else:
+		for i in r_click_node_menu.item_count:
+			r_click_node_menu.set_item_disabled(i,false)
 		if selected.size()>1:
 			r_click_node_menu.set_item_disabled(1,true)
 			r_click_node_menu.set_item_disabled(2,true)
+		else:
+			if start_node == selected[0]:
+				r_click_node_menu.set_item_disabled(0,true)
 		r_click_node_menu.position = DisplayServer.mouse_get_position()
 		r_click_node_menu.popup()
 
 func _on_r_click_node_menu_id_pressed(id: int) -> void:
 	match id:
 		0:
-			var delete_array:=[]
+			var delete_array: Array[StringName] = []
 			for node in selected:
 				delete_array.append(node.name)
 			_on_delete_nodes_request(delete_array)
