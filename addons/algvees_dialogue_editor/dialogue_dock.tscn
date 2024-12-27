@@ -174,7 +174,6 @@ filters = PackedStringArray("*.tres")
 [connection signal="connection_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_connection_request"]
 [connection signal="delete_nodes_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_delete_nodes_request"]
 [connection signal="disconnection_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_disconnection_request"]
-[connection signal="gui_input" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_gui_input"]
 [connection signal="node_deselected" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_node_deselected"]
 [connection signal="node_selected" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_node_selected"]
 [connection signal="popup_request" from="Graph/GraphEdit" to="Graph/GraphEdit" method="_on_popup_request"]
