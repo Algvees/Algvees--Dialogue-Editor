@@ -4,7 +4,9 @@ extends GraphEdit
 @onready var r_click_menu: PopupMenu = $RClickMenu
 @onready var r_click_node_menu: PopupMenu = $RClickNodeMenu
 @onready var node_menu: PopupMenu = $NodeMenu
-@export var dialogue_root: Control
+@export var favorite_nodes : Array[String] = []
+##temp add a config file later
+@export var ignore_dirs: Array[String] = []
 var node_types: Dictionary = {}
 
 var selected: Array[DialogueGraphNode] = []
@@ -22,24 +24,52 @@ var graph_nodes: Array[GraphElement] = []
 func _ready() -> void:
 	add_valid_connection_type(0,0)
 	add_valid_connection_type(1,0)
-	scan_node_directory()
+	rescan_for_nodes()
 
 func get_local_position():
 	return (get_viewport().get_mouse_position() + scroll_offset - position) / zoom
 
-func scan_node_directory():
+func rescan_for_nodes() -> void:
 	node_types.clear()
+	##temporary until proper favorite system
+	$NodeMenu/Favorites.clear()
+	for node in favorite_nodes:
+		var new_packed_node: PackedScene = load(node)
+		var new_node:DialogueGraphNode = new_packed_node.instantiate()
+		node_types[new_node.ID] = [new_packed_node,node.get_slice("/",node.get_slice_count("/")-1).replace(".tscn","")]
+		$NodeMenu/Favorites.add_item(node.get_slice("/",node.get_slice_count("/")-1).replace(".tscn",""),new_node.ID)
+	for i in range(1,node_menu.get_child_count()):
+		node_menu.get_child(i).queue_free()
 	node_menu.clear()
-	var node_dir := DirAccess.open("res://addons/algvees_dialogue_editor/dialogue_nodes/")
+	node_menu.add_submenu_node_item("Favs",$NodeMenu/Favorites,100)
+	scan_node_directory(node_menu,"res://addons/algvees_dialogue_editor/dialogue_nodes")
+
+func scan_node_directory(pop_menu: PopupMenu,path:String):
+	var node_dir := DirAccess.open(path)
 	if node_dir:
+		check_for_sub_dirs(node_dir,pop_menu,path)
+		##Adds new nodes
 		for file in node_dir.get_files():
 			if file.find(".tscn")>-1:
-				var new_packed_node: PackedScene = load("res://addons/algvees_dialogue_editor/dialogue_nodes/"+file)
+				var new_packed_node: PackedScene = load(path + "/" + file)
 				var new_node:DialogueGraphNode = new_packed_node.instantiate()
-				node_types[new_node.ID] = new_packed_node
-				node_menu.add_item(file.replace(".tscn",""),new_node.ID)
+				node_types[new_node.ID] = [new_packed_node,file.replace(".tscn","")]
+				pop_menu.add_item(file.replace(".tscn",""),new_node.ID)
 	else:
-		push_error("dialogue_nodes directory missing")
+		push_error("Algvees, " + path + " missing")
+
+func check_for_sub_dirs(node_dir:DirAccess,pop_menu: PopupMenu, path :String) -> void:
+	for dir in node_dir.get_directories():
+		var sub_dir = DirAccess.open(path + "/" + dir)
+		##ignores gdignore directories and ignored dirs
+		if sub_dir.get_files().has(".gdignore") : continue
+		if ignore_dirs.has(path + "/" + dir + "/"): continue
+		var new_menu = PopupMenu.new()
+		new_menu.name = dir
+		pop_menu.add_child(new_menu)
+		new_menu.id_pressed.connect(_on_node_menu_id_pressed)
+		pop_menu.add_submenu_node_item(dir,new_menu,100)
+		scan_node_directory(new_menu,path + "/" + dir)
 
 func clear():
 	selected.clear()
@@ -54,7 +84,7 @@ func disconnect_from_dict(dict):
 	disconnect_node(dict.from_node,dict.from_port,dict.to_node,dict.to_port)
 
 func create_node(id) -> GraphNode:
-	var new_graph_node:DialogueGraphNode = node_types[id].instantiate()
+	var new_graph_node:DialogueGraphNode = node_types[id][0].instantiate()
 	graph_nodes.append(new_graph_node)
 	add_child(new_graph_node)
 	new_graph_node.change_title()
@@ -140,6 +170,7 @@ func _on_popup_request(at_position: Vector2) -> void:
 		else:
 			if start_node == selected[0]:
 				r_click_node_menu.set_item_disabled(0,true)
+				r_click_node_menu.set_item_disabled(2,true)
 		r_click_node_menu.position = DisplayServer.mouse_get_position()
 		r_click_node_menu.popup()
 

@@ -93,9 +93,10 @@ func save_dialogue() -> void:
 		node_dict["connections"] = node_connections
 		dict.nodes[str(node.name)] = node_dict
 
-
+ 
 func save_resource(path:String) -> void:
 	save_dialogue()
+	dialogue_path = path
 	var test = ResourceSaver.save(dialogue_resource,path,ResourceSaver.FLAG_CHANGE_PATH)
 	if test != OK:
 		push_error("save failed at " + path)
@@ -154,7 +155,7 @@ func _on_r_click_menu_id_pressed(id: int) -> void:
 func _on_file_id_pressed(id: int) -> void:
 	match id:
 		0:
-			new_resource()
+			new_resource() 
 		1:
 			$FileSaver.position = DisplayServer.mouse_get_position()
 			$FileSaver.popup()

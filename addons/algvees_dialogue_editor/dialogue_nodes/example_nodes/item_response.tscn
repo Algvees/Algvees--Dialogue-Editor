@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bacgcd3mbgk8v"]
 
-[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/item_response.gd" id="1_c1c2m"]
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/example_nodes/item_response.gd" id="1_c1c2m"]
 [ext_resource type="PackedScene" uid="uid://dgvk55u6c8vee" path="res://addons/algvees_dialogue_editor/node_components/line_editor.tscn" id="2_3py63"]
 
 [node name="Item Response" type="GraphNode"]
@@ -28,6 +28,7 @@ slot/1/right_icon = null
 slot/1/draw_stylebox = true
 script = ExtResource("1_c1c2m")
 ID = 2
+Fav_temp_setting = null
 adjustable_port_number = true
 
 [node name="Button" type="Button" parent="."]

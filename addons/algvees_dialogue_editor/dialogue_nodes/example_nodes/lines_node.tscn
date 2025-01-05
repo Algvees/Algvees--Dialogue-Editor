@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://db1ev4b3pftll"]
 
-[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/lines_node.gd" id="1_jyi2k"]
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/example_nodes/lines_node.gd" id="1_jyi2k"]
 
 [node name="Lines" type="GraphNode"]
 custom_minimum_size = Vector2(400, 0)

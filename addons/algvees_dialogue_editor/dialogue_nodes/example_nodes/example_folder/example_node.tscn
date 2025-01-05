@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcmnpd0stapku"]
+
+[ext_resource type="Script" path="res://addons/algvees_dialogue_editor/dialogue_nodes/base_graph_node.gd" id="1_ce1ij"]
+
+[node name="ExampleNode" type="GraphNode"]
+title = "nothing"
+script = ExtResource("1_ce1ij")
+ID = -1
+Fav_temp_setting = null
