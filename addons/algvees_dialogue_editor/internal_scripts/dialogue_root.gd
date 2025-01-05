@@ -36,6 +36,7 @@ func create_dialogue_button(dialogue_name):
 	new_button.pressed.connect(dia_button_pressed.bind(new_button))
 
 func new_resource():
+	dialogue_path = ""
 	dialogue_resource = default_dialogue.duplicate(true)
 	open_resource()
 
